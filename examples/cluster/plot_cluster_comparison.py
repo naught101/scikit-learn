@@ -40,6 +40,9 @@ noisy_circles = datasets.make_circles(n_samples=n_samples, factor=.5,
                                       noise=.05)
 noisy_moons = datasets.make_moons(n_samples=n_samples, noise=.05)
 blobs = datasets.make_blobs(n_samples=n_samples, random_state=8)
+blobs_overlapping = datasets.make_blobs(n_samples=n_samples, random_state=8,
+                                        centers=np.array([[0,0], [10,10], [-5,-5]]),
+                                        cluster_std=np.array([[10.0], [1.0], [1.0]]))
 no_structure = np.random.rand(n_samples, 2), None
 
 colors = np.array([x for x in 'bgrcmykbgrcmykbgrcmykbgrcmyk'])
@@ -56,7 +59,7 @@ plt.subplots_adjust(left=.02, right=.98, bottom=.001, top=.96, wspace=.05,
 
 plot_num = 1
 
-datasets = [noisy_circles, noisy_moons, blobs, no_structure]
+datasets = [noisy_circles, noisy_moons, blobs, blobs_overlapping, no_structure]
 for i_dataset, dataset in enumerate(datasets):
     X, y = dataset
     # normalize dataset for easier parameter selection

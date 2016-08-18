@@ -68,19 +68,19 @@ def _get_minimum_distances(adjacency):
     adjacency : symmetric square ndarray
     Matrix with distances between pairs of graph nodes (usually 1s), or np.inf
     for no connection.
-
-    Based on the `Floyd-Warshall algorithm
-    <https://en.wikipedia.org/wiki/Floyd-Warshall_algorithm>`_.
     """
     assert (len(adjacency.shape) == 2 and adjacency.shape[0] == adjacency.shape[1]), \
         "adjacency isn't a square matrix"
     n_nodes = adjacency.shape[0]
+    side = np.sqrt(n_nodes)
     distance = adjacency.copy()
-    for k in range(n_nodes):
-        for i in range(n_nodes):
-            for j in range(n_nodes):
-                if distance[i, j] > distance[i, k] + distance[k, j]:
-                    distance[i, j] = distance[i, k] + distance[k, j]
+    for i in range(n_nodes):
+        for j in range(n_nodes):
+            x_i = i % side
+            y_i = int(i / side)
+            x_j = j % side
+            y_j = int(j / side)
+            distance[i, j] = abs(x_i - x_j) + abs(y_i - y_j)
 
     return(distance)
 
